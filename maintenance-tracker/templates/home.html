@@ -5,13 +5,15 @@
 	<h1>{{ current_user.name }}</h1>
 
         {%  for vehicle in vehicles %}
-            <div>
-                <h3>{{ vehicle.name }}</h3>
-                {{ vehicle.year }} {{  vehicle.make }} {{ vehicle.model }}
-            </div>
+            <a href="{{ url_for('vehicle_detail', v_id=vehicle.id) }}">
+                <div class="border rounded m-1 p-3">
+                    <h3>{{ vehicle.name }}</h3>
+                    {{ vehicle.year }} {{  vehicle.make }} {{ vehicle.model }}
+                </div>
+            </a>
         {%  endfor %}
 
-    <a href="{{ url_for('add_vehicle') }}">Add Vehicle</a>
+    <a href="{{ url_for('add_vehicle') }}" class="btn btn-primary">Add Vehicle</a>
 </div>
 
 {% endblock %}

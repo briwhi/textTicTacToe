@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, DateField
 from wtforms.validators import DataRequired, Email, Length
+from wtforms.widgets.html5 import DateInput
 
 
 class RegisterForm(FlaskForm):
@@ -26,6 +27,6 @@ class AddVehicleForm(FlaskForm):
 
 class AddTaskForm(FlaskForm):
     name = StringField(label="Description")
-    date= DateField(label="Date")
+    date = DateField(label="Date")
     mileage = IntegerField(label="Mileage")
     submit = SubmitField(label="Submit")
