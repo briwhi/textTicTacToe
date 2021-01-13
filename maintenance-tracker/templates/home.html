@@ -3,6 +3,11 @@
 
 <div class="box">
 	<h1>USER HOME</h1>
+    <ul>
+        {%  for vehicle in vehicles %}
+            <li>{{ vehicle.name }}</li>
+        {%  endfor %}
+    </ul>
     <a href="{{ url_for('add_vehicle') }}">Add Vehicle</a>a
 </div>
 

@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128))
     name = db.Column(db.String(50))
     vehicles = db.relationship('Vehicle')
+    monthly_email = db.Column(db.Boolean)
 
 
 class Task(db.Model):
