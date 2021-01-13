@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="box">
-	<h1>USER HOME</h1>
-    <ul>
+<div>
+	<h1>{{ current_user.name }}</h1>
+
         {%  for vehicle in vehicles %}
-            <li>{{ vehicle.name }}</li>
+            <div>
+                <h3>{{ vehicle.name }}</h3>
+                {{ vehicle.year }} {{  vehicle.make }} {{ vehicle.model }}
+            </div>
         {%  endfor %}
-    </ul>
-    <a href="{{ url_for('add_vehicle') }}">Add Vehicle</a>a
+
+    <a href="{{ url_for('add_vehicle') }}">Add Vehicle</a>
 </div>
 
 {% endblock %}

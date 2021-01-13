@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, DateField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -22,3 +22,10 @@ class AddVehicleForm(FlaskForm):
     make = StringField(label="Make")
     model = StringField(label="Model", validators=[DataRequired()])
     submit = SubmitField(label="Add")
+
+
+class AddTaskForm(FlaskForm):
+    name = StringField(label="Description")
+    date= DateField(label="Date")
+    mileage = IntegerField(label="Mileage")
+    submit = SubmitField(label="Submit")
