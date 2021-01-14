@@ -2,7 +2,6 @@
 {% block content %}
 
 <div>
-	<h1>{{ current_user.name }}</h1>
 
         {%  for vehicle in vehicles %}
             <a href="{{ url_for('vehicle_detail', v_id=vehicle.id) }}">
