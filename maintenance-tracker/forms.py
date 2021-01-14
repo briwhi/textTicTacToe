@@ -27,6 +27,6 @@ class AddVehicleForm(FlaskForm):
 
 class AddTaskForm(FlaskForm):
     name = StringField(label="Description")
-    date = DateField(label="Date")
+    date = DateField(label="Date", widget=DateInput())
     mileage = IntegerField(label="Mileage")
     submit = SubmitField(label="Submit")

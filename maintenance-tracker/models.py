@@ -27,7 +27,6 @@ class Vehicle(db.Model):
     year = db.Column(db.Integer)
     make = db.Column(db.String(40))
     model = db.Column(db.String(50))
-    tasks = db.relationship("Task")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
+    tasks = db.relationship("Task")
 

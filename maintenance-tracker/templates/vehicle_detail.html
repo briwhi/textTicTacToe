@@ -4,7 +4,20 @@
 <div>
 	<h1>{{  vehicle.name }}</h1>
     <h3>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h3>
-
+    <table class="table text-center">
+        <tr>
+            <th>Date</th>
+            <th>Mileage</th>
+            <th>Task</th>
+        </tr>
+        {%  for task in tasks %}
+        <tr>
+            <td>{{ task.date }}</td>
+            <td>{{ task.mileage }}</td>
+            <td>{{ task.name }}</td>
+        </tr>
+        {%  endfor %}
+    </table>
 
 
     <a href="{{ url_for('add_task', v_id=vehicle.id) }}" class="btn btn-primary">Add Maintenance</a>
