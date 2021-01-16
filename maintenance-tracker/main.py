@@ -66,8 +66,8 @@ def home():
 #           USER ADD
 @app.route('/user/register', methods=["GET", "POST"])
 def register():
-    register_form = RegisterForm()
-    if register_form.validate_on_submit():
+    form = RegisterForm()
+    if form.validate_on_submit():
         name = request.form['name']
         email = request.form['email']
         clear_pass = request.form['password']
@@ -77,7 +77,7 @@ def register():
         db.session.commit()
         return redirect(url_for('login'))
 
-    return render_template("register.html", form=register_form)
+    return render_template("register.html", form=form)
 
 
 #           USER EDIT
@@ -90,10 +90,6 @@ def user_edit():
     update_user_form.process()
     return render_template("register.html", form=update_user_form)
 
-
-@app.route('/user/demo')
-def use_demo():
-    pass
 
 # ---------------------------- Vehicle Routes --------------------------------------------------------------------------
 

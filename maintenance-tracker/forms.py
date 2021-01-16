@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, DateField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, DateField, validators
 from wtforms.validators import DataRequired, Email, Length
 from wtforms.widgets.html5 import DateInput
 from models import User
@@ -8,8 +8,8 @@ from flask import flash
 
 class RegisterForm(FlaskForm):
     name = StringField(label='Name', validators=[DataRequired()])
-    email = StringField(label='Email', validators=[Email(message="valid email required")])
-    password = PasswordField(label='Password', validators=[DataRequired(),Length(min=6)])
+    email = StringField(label='Email', validators=[Email()])
+    password = PasswordField(label='Password', validators=[DataRequired(), Length(min=6)])
     submit = SubmitField(label='Register')
 
 
