@@ -1,17 +1,22 @@
-{% extends "base.html" %}
+{% extends "bootstrap/base.html" %}
+
+{% block title %} User Home {%  endblock %}
+
+{% block navbar %} {% include "navigation.html"  %} {% endblock %}s
+
 {% block content %}
 
-<div>
+<div class="text-center container">
 
         {%  for vehicle in vehicles %}
-            <a href="{{ url_for('vehicle_detail', v_id=vehicle.id) }}">
-                <div class="border rounded m-1 p-3">
+            <a href="{{ url_for('vehicle_detail', v_id=vehicle.id) }}"
+                class="btn btn-outline-secondary">
                     <h3>{{ vehicle.name }}</h3>
                     {{ vehicle.year }} {{  vehicle.make }} {{ vehicle.model }}
-                </div>
             </a>
         {%  endfor %}
-
+</div>
+<div class="text-center">
     <a href="{{ url_for('add_vehicle') }}" class="btn btn-primary">Add Vehicle</a>
 </div>
 
