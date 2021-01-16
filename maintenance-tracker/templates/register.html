@@ -5,8 +5,15 @@
 {%  block content %}
 
 <div class="container">
-	<h1>Account</h1>
-    {{  wtf.quick_form(form) }}
+	<h4>Account</h4>
+    <form method="post" novalidate>
+            <ul class="list-unstyled">
+                <li>{{ form.name.label }} {{ form.name }}</li>
+                <li>{{ form.email.label }} {{ form.email }}</li>
+                <li>{{ form.password.label }} {{ form.password }}</li>
+                <li>{{ form.submit(class_="btn btn-light rounded btn-outline-dark") }}</li>
+            </ul>
+        </form>
 </div>
 
 {% endblock %}

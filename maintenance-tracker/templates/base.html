@@ -10,14 +10,22 @@
 </head>
 
 <body>
-        {% if current_user.is_authenticated %}
-           <h2>{{ current_user.name }}</h2>
-            <a href="{{ url_for('home') }}" class="btn-primary">Home</a>
-            <a href="{{ url_for('user_edit') }}" class="btn-primary">Account</a>
-            <a href="{{ url_for('logout') }}" class="btn-primary">Log Out</a>
-        {%  endif %}
+    <div class="container">
+    <h3>Vehicle Maintenance Tracker Demo</h3>
+         <div class="row">
+            <div class="col-lg-4 mx-auto">
+                {% if current_user.is_authenticated %}
+                   <h2>{{ current_user.name }}</h2>
+                    <a href="{{ url_for('home') }}" class="btn btn-light rounded btn-outline-dark">Home</a>
+                    <a href="{{ url_for('user_edit') }}" class="btn btn-light rounded btn-outline-dark">Account</a>
+                    <a href="{{ url_for('logout') }}" class="btn btn-light rounded btn-outline-dark">Log Out</a>
+                {%  endif %}
+            </div>
+         </div>
        {% block content %}
        {% endblock %}
+    </div>
+
 </body>
 
 </html>

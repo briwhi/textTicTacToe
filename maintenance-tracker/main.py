@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 from flask_bootstrap import Bootstrap
 from forms import RegisterForm, LoginForm, AddVehicleForm, AddTaskForm
@@ -9,11 +8,10 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "this is a secret key"
-Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tracker.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-
+Bootstrap(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -27,18 +25,14 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/')
-def index():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    return render_template("index.html")
-
-
 # -----------------------------User Routes -----------------------------------------------------------------------------
 
 #           USER LOGIN
-@app.route('/user/login', methods=["GET", "POST"])
+
+@app.route('/', methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     if request.method == "POST":
         email = request.form['email']
         password = request.form['password']
@@ -47,18 +41,18 @@ def login():
             if check_password_hash(user.password, password):
                 login_user(user)
                 return redirect(url_for('home'))
-        except Exception :
+        except Exception:
             return redirect(url_for('login'))
         
     login_form = LoginForm()
-    return render_template("login.html", form=login_form)
+    return render_template("index.html", form=login_form)
 
 
 #           USER LOGOUT
 @app.route('/user/logout')
 def logout():
     logout_user()
-    return redirect(url_for("index"))
+    return redirect(url_for("login"))
 
 
 #           USER HOME
@@ -96,6 +90,10 @@ def user_edit():
     update_user_form.process()
     return render_template("register.html", form=update_user_form)
 
+
+@app.route('/user/demo')
+def use_demo():
+    pass
 
 # ---------------------------- Vehicle Routes --------------------------------------------------------------------------
 
