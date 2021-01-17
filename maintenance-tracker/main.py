@@ -84,11 +84,18 @@ def register():
 @app.route('/user/edit', methods=["GET", "POST"])
 @login_required
 def user_edit():
-    update_user_form = RegisterForm()
-    update_user_form.name.default = current_user.name
-    update_user_form.email.default = current_user.email
-    update_user_form.process()
-    return render_template("register.html", form=update_user_form)
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user = db.session.query(User).get(current_user.id)
+        user.name = request.form['name']
+        user.email = request.form['email']
+        user.password = generate_password_hash(request.form['password'])
+        db.session.commit()
+        return redirect(url_for('home'))
+    else:
+        form.name.default = current_user.name
+        form.email.default = current_user.email
+        return render_template("register.html", form=form)
 
 
 # ---------------------------- Vehicle Routes --------------------------------------------------------------------------
