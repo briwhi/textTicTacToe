@@ -1,4 +1,5 @@
 {% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %} Login Page {%  endblock %}
 
@@ -7,13 +8,7 @@
 {% block content %}
 <div class="container text-center">
         <h4>Log In</h4>
-        <form method="post" novalidate>
-            <ul class="list-unstyled">
-                <li>{{ form.email.label }} {{ form.email }}</li>
-                <li>{{ form.password.label }} {{ form.password }}</li>
-                <li>{{ form.submit(class_="btn btn-light rounded btn-outline-dark") }}</li>
-            </ul>
-        </form>
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "secondary"}) }}
 </div>
 
 {% endblock %}

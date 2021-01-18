@@ -1,19 +1,16 @@
 
-{% extends 'base.html' %}
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} User Account {%  endblock %}
+
+{% block navbar %} {% include "navigation.html"  %} {% endblock %}
 
 {%  block content %}
 
 <div class="container">
 	<h4>Account</h4>
-    <form method="post" novalidate>
-            <ul class="list-unstyled">
-                {{ form.csrf_token }}
-                <li>{{ form.name.label }} {{ form.name }} {{ form.name.errors }}</li>
-                <li>{{ form.email.label }} {{ form.email }} {{ form.email.errors }}</li>
-                <li>{{ form.password.label }} {{ form.password }}{{  form.password.errors }}</li>
-                <li>{{ form.submit(class_="btn btn-light rounded btn-outline-dark") }}</li>
-            </ul>
-        </form>
+    {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "success"}) }}
 </div>
 
 {% endblock %}

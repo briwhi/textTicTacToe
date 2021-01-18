@@ -1,13 +1,13 @@
-<div class="container text-center">
+<div class="container-fluid text-center">
             <h3>Vehicle Maintenance Tracker</h3>
             <div class = "navbar">
             {% if current_user.is_authenticated %}
                 <h2>{{ current_user.name }}</h2>
-                <a href="{{ url_for('home') }}" class="btn btn-light rounded btn-outline-dark">Home</a>
-                <a href="{{ url_for('user_edit') }}" class="btn btn-light rounded btn-outline-dark">Account</a>
-                <a href="{{ url_for('logout') }}" class="btn btn-light rounded btn-outline-dark">Log Out</a>
+                <a href="{{ url_for('home') }}" class="btn btn-success">Home</a>
+                <a href="{{ url_for('user_edit') }}" class="btn btn-success">Account</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-success">Log Out</a>
             {% else %}
-               <a href="{{ url_for('register') }}" class="btn btn-light rounded btn-outline-dark">Register</a>
+               <a href="{{ url_for('register') }}" class="btn btn-success">Register</a>
             {%  endif %}
             </div>
 </div>

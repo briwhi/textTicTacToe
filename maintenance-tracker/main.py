@@ -95,6 +95,7 @@ def user_edit():
     else:
         form.name.default = current_user.name
         form.email.default = current_user.email
+        form.process()
         return render_template("register.html", form=form)
 
 
@@ -142,9 +143,9 @@ def delete_vehicle(v_id):
 @app.route('/task/add/<v_id>', methods=["POST", "GET"])
 @login_required
 def add_task(v_id):
-    add_form = AddTaskForm()
+    form = AddTaskForm()
     vehicle = Vehicle.query.get(v_id)
-    if add_form.validate_on_submit():
+    if form.validate_on_submit():
         name = request.form['name']
         string_date = request.form['date']
         date = datetime.strptime(string_date, '%Y-%m-%d')
@@ -154,7 +155,7 @@ def add_task(v_id):
         db.session.commit()
         return redirect(url_for('vehicle_detail', v_id=vehicle.id))
 
-    return render_template("add_task.html", vehicle=vehicle, form=add_form)
+    return render_template("add_task.html", vehicle=vehicle, form=form)
 
 
 if __name__ == "__main__":

@@ -1,17 +1,23 @@
-{% extends "base.html" %}
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} Vehicle Detail {%  endblock %}
+
+{% block navbar %} {% include "navigation.html"  %} {% endblock %}
+
 {% block content %}
 
-<div>
+<div class="text-center">
 	<h1>{{  vehicle.name }}</h1>
     <h3>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h3>
-    <a href="#" type="button" class="btn-primary">Edit Vehicle</a>
-    <a href="{{ url_for('delete_vehicle', v_id=vehicle.id) }}" type="button" class="btn-danger">Delete Vehicle</a>
+    <a href="#" type="button" class="btn btn-success">Edit Vehicle</a>
+    <a href="{{ url_for('delete_vehicle', v_id=vehicle.id) }}" type="button" class="btn btn-success">Delete Vehicle</a>
 
-    <table class="table text-center">
+    <table class="table text-center table-striped table-bordered table-sm" >
         <tr>
-            <th>Date</th>
-            <th>Mileage</th>
-            <th>Task</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Mileage</th>
+            <th class="text-center">Task</th>
         </tr>
         {%  for task in tasks %}
         <tr>
@@ -23,7 +29,7 @@
     </table>
 
 
-    <a href="{{ url_for('add_task', v_id=vehicle.id) }}" class="btn btn-primary">Add Maintenance</a>
+    <a href="{{ url_for('add_task', v_id=vehicle.id) }}" class="btn btn-success">Add Maintenance</a>
 
 </div>
 
