@@ -9,5 +9,13 @@
             {% else %}
                <a href="{{ url_for('register') }}" class="btn btn-success">Register</a>
             {%  endif %}
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul class="flashes list-unstyled">
+                {% for message in messages %}
+                    <li class="text-danger"><h4>{{ message }}</h4></li>
+                {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
             </div>
-</div>

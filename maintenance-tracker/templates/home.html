@@ -5,7 +5,7 @@
 {% block navbar %} {% include "navigation.html"  %} {% endblock %}s
 
 {% block content %}
-
+<a href="{{  url_for('send_mail') }}" class="btn btn-success">Send Reminder Email</a>
 <div class="text-center container">
 
         {%  for vehicle in vehicles %}
@@ -16,6 +16,7 @@
             </a>
         {%  endfor %}
 </div>
+
 <div class="text-center m-4">
     <a href="{{ url_for('add_vehicle') }}" class="btn btn-success">Add Vehicle</a>
 </div>

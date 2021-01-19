@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 from flask_bootstrap import Bootstrap
 from forms import RegisterForm, LoginForm, AddVehicleForm, AddTaskForm
 from models import db, User, Vehicle, Task
 from datetime import datetime
+from mailer import Mailer
 
 app = Flask(__name__)
 app.secret_key = "this is a secret key"
@@ -99,13 +100,22 @@ def user_edit():
         return render_template("register.html", form=form)
 
 
+@app.route('/user/send_mail')
+@login_required
+def send_mail():
+    mailer = Mailer(current_user)
+    mailer.send_mail()
+    flash("Email was sent")
+    return redirect(url_for('home'))
+
+
 # ---------------------------- Vehicle Routes --------------------------------------------------------------------------
 
 #           ADD VEHICLE
 @app.route('/add_vehicle', methods=["GET", "POST"])
 def add_vehicle():
-    add_form = AddVehicleForm()
-    if add_form.validate_on_submit():
+    form = AddVehicleForm()
+    if form.validate_on_submit():
         name = request.form['name']
         year = request.form['year']
         make = request.form['make']
@@ -116,7 +126,7 @@ def add_vehicle():
         db.session.commit()
         return redirect(url_for('home'))
 
-    return render_template('add_vehicle.html', form=add_form)
+    return render_template('add_vehicle.html', form=form)
 
 
 #           VEHICLE DETAIL
@@ -134,7 +144,7 @@ def delete_vehicle(v_id):
     vehicle = Vehicle.query.get(v_id)
     db.session.delete(vehicle)
     db.session.commit()
-    return render_template('home.html')
+    return redirect(url_for('home'))
 
 
 # -------------------------------------- Task routes -------------------------------------------------------------------
