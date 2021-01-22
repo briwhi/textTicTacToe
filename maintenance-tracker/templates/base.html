@@ -1,20 +1,18 @@
-{%  extends "bootstrap/base.html" %}
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Vehicle Maintenance Tracker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}">
+    <meta charset="UTF-8">
+    <title>{% block title %}Vehicle Maintenance Tracker{%  endblock %}</title>i
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
-
 <body>
-
-       {% block content %}
-       {% endblock %}
+    <div class="container-flex">
+        {%  include "navigation.html" %}
     </div>
-
+    <div class="container-flex">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
-
 </html>
