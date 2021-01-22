@@ -26,14 +26,30 @@ class Movie(db.Model):
     img_url = db.Column(db.String)
 
 
-with app.app_context():
-    db.create_all()
+#with app.app_context():
+    #db.create_all()
 
+class RealMovieForm(FlaskForm):
+    rating = StringField('Your rating out of 10', [DataRequired()])
+    review = StringField("Your review",[DataRequired()])
+    submit = SubmitField("Done")
 
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    movies = db.session.query(Movie).all()
+    return render_template("index.html", movies=movies)
+
+
+@app.route("/edit/<movie_id>", methods=["GET", "POST"])
+def edit(movie_id):
+    movie = Movie.query.get(movie_id)
+    form = RealMovieForm(obj=movie)
+    if form.validate_on_submit():
+        form.populate_obj(movie)
+        movie.save()
+
+    return render_template("edit.html", movie=movie, form=form)
 
 
 if __name__ == '__main__':
