@@ -1,6 +1,9 @@
+
 <div class="container-fluid text-center">
-            <h3>Vehicle Maintenance Tracker</h3>
-            <div class = "navbar">
+    <div class="row heading" >
+            Vehicle Maintenance Tracker
+    </div>
+            <div class = "navbar" >
             {% if current_user.is_authenticated %}
                 <h2>{{ current_user.name }}</h2>
                 <a href="{{ url_for('home') }}" class="btn btn-success">Home</a>
@@ -19,3 +22,4 @@
               {% endif %}
             {% endwith %}
             </div>
+    </div>
