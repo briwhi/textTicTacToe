@@ -5,6 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import requests
+from config import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -33,6 +34,7 @@ class RealMovieForm(FlaskForm):
     rating = StringField('Your rating out of 10', [DataRequired()])
     review = StringField("Your review",[DataRequired()])
     submit = SubmitField("Done")
+
 
 class AddMovieForm(FlaskForm):
     title = StringField("Movie Title", [DataRequired()])
@@ -68,9 +70,38 @@ def delete(movie_id):
 def add():
     form = AddMovieForm()
     if form.validate_on_submit():
-        print(request.form.title)
+        title = request.form['title']
+        url = "https://api.themoviedb.org/3/search/movie"
+        params = {
+            "api_key": API_KEY,
+            "language": "en-US",
+            "query": title,
+        }
+        data = requests.get(url, params)
+        response = data.json()
+        movies = response['results']
+        return render_template("select.html", movies=movies)
     
     return render_template("add.html", form=form)
+
+
+@app.route('/selection/<movie_id>', methods=['POST', 'GET'])
+def selection(movie_id):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+    params = {
+        "api_key": API_KEY,
+        "language": "en-US",
+    }
+    data = requests.get(url, params)
+    response = data.json()
+    movie = Movie()
+    movie.title = response['title']
+    movie.img_url = f"https://image.tmdb.org/t/p/w500{response['backdrop_path']}"
+    movie.year = response['release_date']
+    movie.description = response['overview']
+    db.session.add(movie)
+    db.session.commit()
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
