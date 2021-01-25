@@ -43,8 +43,12 @@ class AddMovieForm(FlaskForm):
 
 @app.route("/")
 def home():
-    movies = db.session.query(Movie).all()
-    return render_template("index.html", movies=movies)
+    all_movies = Movie.query.order_by(Movie.rating).all()
+
+    for i in range(len(all_movies)):
+        all_movies[i].ranking = len(all_movies) - i
+    db.session.commit()
+    return render_template("index.html", movies=all_movies)
 
 
 @app.route("/edit/<movie_id>", methods=["GET", "POST"])
@@ -52,8 +56,10 @@ def edit(movie_id):
     movie = Movie.query.get(movie_id)
     form = RealMovieForm(obj=movie)
     if form.validate_on_submit():
-        form.populate_obj(movie)
-        movie.save()
+        movie.rating = request.form['rating']
+        movie.review = request.form['review']
+        db.session.commit()
+        return redirect(url_for('home'))
 
     return render_template("edit.html", movie=movie, form=form)
 
@@ -101,7 +107,7 @@ def selection(movie_id):
     movie.description = response['overview']
     db.session.add(movie)
     db.session.commit()
-    return redirect(url_for('home'))
+    return redirect(url_for('edit', movie_id=movie.id))
 
 
 if __name__ == '__main__':
