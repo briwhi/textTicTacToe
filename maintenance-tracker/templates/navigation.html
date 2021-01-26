@@ -1,18 +1,29 @@
 
 <div class="container-fluid text-center">
-    <div class="row heading" >
-        {% if current_user %}
-            {{ current_user.name }}'s Vehicles
-        {%  else %}
-            Vehicle Maintenance Tracker
-        {% endif %}
+    <div class="row" >
+        <button class="heading bg-secondary rounded-lg" action="none">
+            {% if current_user.is_authenticated %}
+                {{ current_user.name }}'s Vehicles
+            {%  else %}
+                Vehicle Maintenance Tracker
+            {% endif %}
+        </button>
     </div>
             <div class = "navbar" >
             {% if current_user.is_authenticated %}
+                <button class="btn btn-secondary rounded-lg">
+                    <a href="{{ url_for('home') }}" >Home</a>
+                </button>
+                <button class="btn btn-secondary rounded-lg">
+                    <a href="{{ url_for('user_edit') }}" >Account</a>
+                </button>
+                <button class="btn btn-secondary rounded-lg">
+                    <a href="{{  url_for('send_mail') }}" >Send Reminder Email</a>
+                </button>
+                <button class="btn btn-secondary rounded-lg">
+                    <a href="{{ url_for('logout') }}">Log Out</a>
+                </button>
 
-                <a href="{{ url_for('home') }}" class="btn btn-success">Home</a>
-                <a href="{{ url_for('user_edit') }}" class="btn btn-success">Account</a>
-                <a href="{{ url_for('logout') }}" class="btn btn-success">Log Out</a>
             {% else %}
                <a href="{{ url_for('register') }}" class="btn btn-success">Register</a>
             {%  endif %}

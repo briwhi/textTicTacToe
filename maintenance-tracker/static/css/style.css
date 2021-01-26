@@ -1,9 +1,13 @@
-
+body {
+   background-image: url("/static/imgs/background.jpg");
+}
 
 .heading  {
-    color: white;
     text-align: center;
     font-size:100px;
-    background-image: url("/static/imgs/background.jpg");
-    height:350px;
+    font-family: serif;
+}
+
+a {
+    color:black;
 }
