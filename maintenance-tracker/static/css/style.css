@@ -2,12 +2,3 @@ body {
    background-image: url("/static/imgs/background.jpg");
 }
 
-.heading  {
-    text-align: center;
-    font-size:100px;
-    font-family: serif;
-}
-
-a {
-    color:black;
-}
