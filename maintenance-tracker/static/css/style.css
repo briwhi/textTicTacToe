@@ -1,4 +1,6 @@
 body {
    background-image: url("/static/imgs/background.jpg");
 }
-
+a {
+   color: black;
+}

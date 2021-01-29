@@ -1,24 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %} {{  current_user.name }}'s Vehicles {%  endblock %}
-
-{% block navbar %} {% include "navigation.html"  %} {% endblock %}s
-
 {% block content %}
 
 <div class="text-center container">
 
         {%  for vehicle in vehicles %}
-            <a href="{{ url_for('vehicle_detail', v_id=vehicle.id) }}"
-                class="btn btn-success">
+            <div class="bg-light m-3 float-start" style="width:30%; ">
+                <a href="{{ url_for('vehicle_detail', v_id=vehicle.id) }}">
                     <h3>{{ vehicle.name }}</h3>
                     {{ vehicle.year }} {{  vehicle.make }} {{ vehicle.model }}
-            </a>
+                </a>
+            </div>
         {%  endfor %}
+        <div class="bg-light m-3 " style="width:30%;">
+                <a href="{{ url_for('add_vehicle') }}">
+                    <h3>ADD VEHICLE</h3>
+                </a>
+        </div>
 </div>
 
-<div class="text-center m-4">
-    <a href="{{ url_for('add_vehicle') }}" class="btn btn-success">Add Vehicle</a>
-</div>
 
 {% endblock %}
