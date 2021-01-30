@@ -4,3 +4,13 @@ body {
 a {
    color: black;
 }
+.vehicle {
+   height: 100px;
+   width: 200px;
+   margin-top:10px;
+   float: left;
+   margin: 10px;
+}
+.login {
+   width: 700px;
+}

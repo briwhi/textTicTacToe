@@ -5,16 +5,18 @@
 <div class="text-center container">
 
         {%  for vehicle in vehicles %}
-            <div class="bg-light m-3 float-start" style="width:30%; ">
+
+            <div class="bg-light vehicle">
                 <a href="{{ url_for('vehicle_detail', v_id=vehicle.id) }}">
                     <h3>{{ vehicle.name }}</h3>
                     {{ vehicle.year }} {{  vehicle.make }} {{ vehicle.model }}
                 </a>
             </div>
         {%  endfor %}
-        <div class="bg-light m-3 " style="width:30%;">
+        <div class="bg-light vehicle ">
                 <a href="{{ url_for('add_vehicle') }}">
-                    <h3>ADD VEHICLE</h3>
+                    <h3>Add</h3>
+                    <h3>Vehicle</h3>
                 </a>
         </div>
 </div>
