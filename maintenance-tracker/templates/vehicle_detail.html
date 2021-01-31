@@ -1,17 +1,15 @@
-{% extends 'bootstrap/base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends 'base.html' %}
 
-{% block title %} Vehicle Detail {%  endblock %}
 
-{% block navbar %} {% include "navigation.html"  %} {% endblock %}
 
 {% block content %}
 
-<div class="text-center">
+<div class="text-center bg-light ">
+
 	<h1>{{  vehicle.name }}</h1>
     <h3>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h3>
-    <a href="#" type="button" class="btn btn-success">Edit Vehicle</a>
-    <a href="{{ url_for('delete_vehicle', v_id=vehicle.id) }}" type="button" class="btn btn-success">Delete Vehicle</a>
+    <a href="{{ url_for('edit_vehicle', v_id=vehicle.id) }}" class="link">Edit Vehicle</a>
+    <a href="{{ url_for('delete_vehicle', v_id=vehicle.id) }}" class="link">Delete Vehicle</a>
 
     <table class="table text-center table-striped table-bordered table-sm" >
         <tr>
@@ -29,7 +27,8 @@
     </table>
 
 
-    <a href="{{ url_for('add_task', v_id=vehicle.id) }}" class="btn btn-success">Add Maintenance</a>
+    <a href="{{ url_for('add_task', v_id=vehicle.id) }}"
+       class="link">Add Maintenance</a>
 
 </div>
 

@@ -1,11 +1,34 @@
-{% extends 'bootstrap/base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends 'base.html' %}
 
 {%  block content %}
 
 <div class="container">
-	<h1>Add Vehicle</h1>
-    {{  wtf.quick_form(form) }}
+
+        <div class="col text-left login mx-auto">
+            <form method="POST" class="bg-light">
+                <div class="m-3">
+                    <label for="nameInput" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="nameInput" name="name">
+                </div>
+                <div class="m-3">
+                    <label for="yearInput" class="form-label">Year</label>
+                    <input type="text" class="form-control" id="yearInput" name="year">
+                </div>
+                <div class="m-3">
+                    <label for="makeInput" class="form-label">Make</label>
+                    <input type="text" class="form-control" id="makeInput" name="make">
+                </div>
+                <div class="m-3">
+                    <label for="modelInput" class="form-label">Model</label>
+                    <input type="text" class="form-control" id="modelInput" name="model">
+                </div>
+                <div class="m-3">
+                    <button type="submit" class="link">Add</button>
+                </div>
+            </form>
+        </div>
+
+
 </div>
 
 {% endblock %}

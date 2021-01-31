@@ -68,7 +68,7 @@ def home():
 @app.route('/user/register', methods=["GET", "POST"])
 def register():
     form = RegisterForm()
-    if form.validate_on_submit():
+    if request.method == "POST":
         name = request.form['name']
         email = request.form['email']
         clear_pass = request.form['password']
@@ -86,7 +86,7 @@ def register():
 @login_required
 def user_edit():
     form = RegisterForm()
-    if form.validate_on_submit():
+    if request.method=='POST':
         user = db.session.query(User).get(current_user.id)
         user.name = request.form['name']
         user.email = request.form['email']
@@ -115,7 +115,7 @@ def send_mail():
 @app.route('/add_vehicle', methods=["GET", "POST"])
 def add_vehicle():
     form = AddVehicleForm()
-    if form.validate_on_submit():
+    if request.method == "POST":
         name = request.form['name']
         year = request.form['year']
         make = request.form['make']
@@ -145,6 +145,27 @@ def delete_vehicle(v_id):
     db.session.delete(vehicle)
     db.session.commit()
     return redirect(url_for('home'))
+
+
+#           VEHICLE EDIT
+@app.route('/vehicle/edit/<v_id>', methods=["GET", "POST"])
+def edit_vehicle(v_id):
+    form = AddVehicleForm()
+    vehicle = Vehicle.query.get(v_id)
+    if request.method=='POST':
+        vehicle.name = request.form['name']
+        vehicle.year = request.form['year']
+        vehicle.make = request.form['make']
+        vehicle.model = request.form['model']
+        db.session.commit()
+        return redirect(url_for('vehicle_detail', v_id=vehicle.id))
+    else:
+        form.name.default = vehicle.name
+        form.year.default = vehicle.year
+        form.make.default = vehicle.make
+        form.model.default = vehicle.model
+        form.process()
+        return render_template("add_vehicle.html", form=form)
 
 
 # -------------------------------------- Task routes -------------------------------------------------------------------

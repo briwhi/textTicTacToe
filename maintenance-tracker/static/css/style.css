@@ -10,7 +10,14 @@ a {
    margin-top:10px;
    float: left;
    margin: 10px;
+   border-radius: 10px;
+   text-align: center;
 }
 .login {
    width: 700px;
+}
+.link {
+   background-color: lightgray;
+   border: 1px solid;
+   padding: 3px;
 }
