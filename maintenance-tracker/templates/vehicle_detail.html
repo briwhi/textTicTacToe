@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="text-center bg-light ">
+<div class="text-center bg-light m-5 ">
 
 	<h1>{{  vehicle.name }}</h1>
     <h3>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h3>
@@ -22,6 +22,16 @@
             <td>{{ task.date }}</td>
             <td>{{ task.mileage }}</td>
             <td>{{ task.name }}</td>
+            <td>
+                <a href="{{ url_for('edit_task', v_id=vehicle.id, t_id=task.id) }}">
+                    <img src="{{url_for('static', filename='imgs/edit.png')}}"
+                     class="icon_image">
+                </a>
+                <a href="{{ url_for('delete_task', v_id=vehicle.id, t_id=task.id) }}">
+                    <img src="{{url_for('static', filename='imgs/trash.png')}}"
+                     class="icon_image">
+                </a>
+            </td>
         </tr>
         {%  endfor %}
     </table>

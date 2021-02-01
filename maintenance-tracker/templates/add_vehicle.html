@@ -4,26 +4,27 @@
 
 <div class="container">
 
-        <div class="col text-left login mx-auto">
+        <div class="col text-left login mx-auto mt-5">
             <form method="POST" class="bg-light">
+                {{ form.csrf_token }}
                 <div class="m-3">
-                    <label for="nameInput" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="nameInput" name="name">
+                    {{ form.name.label(class="form-label") }}
+                    {{ form.name(class="form-control") }}
                 </div>
                 <div class="m-3">
-                    <label for="yearInput" class="form-label">Year</label>
-                    <input type="text" class="form-control" id="yearInput" name="year">
+                    {{ form.year.label(class="form-label") }}
+                    {{ form.year(class="form-control") }}
                 </div>
                 <div class="m-3">
-                    <label for="makeInput" class="form-label">Make</label>
-                    <input type="text" class="form-control" id="makeInput" name="make">
+                    {{ form.make.label(class="form-label") }}
+                    {{ form.make(class="form-control")}}
                 </div>
                 <div class="m-3">
-                    <label for="modelInput" class="form-label">Model</label>
-                    <input type="text" class="form-control" id="modelInput" name="model">
+                    {{form.model.label(class="form-label") }}
+                    {{ form.model(class="form-control") }}
                 </div>
                 <div class="m-3">
-                    <button type="submit" class="link">Add</button>
+                    {{  form.submit(class="link") }}
                 </div>
             </form>
         </div>

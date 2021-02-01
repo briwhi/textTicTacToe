@@ -24,7 +24,7 @@ class AddVehicleForm(FlaskForm):
     year = IntegerField(label="Year")
     make = StringField(label="Make")
     model = StringField(label="Model", validators=[DataRequired()])
-    submit = SubmitField(label="Add")
+    submit = SubmitField(label="Submit")
 
 
 class AddTaskForm(FlaskForm):

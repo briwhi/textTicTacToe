@@ -4,6 +4,7 @@ from flask_login import login_user, LoginManager, login_required, current_user, 
 from forms import RegisterForm, LoginForm, AddVehicleForm, AddTaskForm
 from models import db, User, Vehicle, Task
 from datetime import datetime
+from mailer import Mailer
 
 app = Flask(__name__)
 app.secret_key = "this is a secret key"
@@ -96,16 +97,24 @@ def user_edit():
         form.process()
         return render_template("register.html", form=form)
 
+
 # USER DELETE
 @app.route('/user/delete')
+@login_required
 def user_delete():
     db.session.delete(current_user)
     db.session.commit()
     return redirect(url_for('login'))
 
 
-
 # USER SEND MAIL
+@app.route('/user/send_mail')
+@login_required
+def send_mail():
+    mailer = Mailer(current_user)
+    mailer.send_mail()
+    flash("Email was sent")
+    return redirect(url_for('home'))
 
 
 # ---------------------------- Vehicle Routes --------------------------------------------------------------------------
@@ -150,7 +159,7 @@ def delete_vehicle(v_id):
 def edit_vehicle(v_id):
     form = AddVehicleForm()
     vehicle = Vehicle.query.get(v_id)
-    if request.method=='POST':
+    if request.method == 'POST':
         vehicle.name = request.form['name']
         vehicle.year = request.form['year']
         vehicle.make = request.form['make']
@@ -185,6 +194,34 @@ def add_task(v_id):
         return redirect(url_for('vehicle_detail', v_id=vehicle.id))
 
     return render_template("add_task.html", vehicle=vehicle, form=form)
+
+
+# TASK EDIT
+@app.route('/task/edit/<v_id>/<t_id>', methods=['GET', 'POST'])
+def edit_task(v_id, t_id):
+    form = AddTaskForm()
+    task = Task.query.get(t_id)
+    if request.method == 'POST':
+        task.name = request.form['name']
+        task.date = request.form['date']
+        task.mileage = request.form['mileage']
+        db.session.commit()
+        return redirect(url_for('vehicle_detail', v_id=v_id))
+    else:
+        form.name.default = task.name
+        form.date.default = task.date
+        form.mileage.default = task.mileage
+        form.process()
+        return render_template("add_task.html", form=form)
+
+
+# TASK DELETE
+@app.route('/task/delete/<v_id>/<t_id>')
+def delete_task(v_id, t_id):
+    task = Task.query.get(t_id)
+    db.session.delete(task)
+    db.session.commit()
+    return redirect(url_for('vehicle_detail', v_id=v_id))
 
 
 if __name__ == "__main__":
