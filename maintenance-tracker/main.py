@@ -1,18 +1,15 @@
 from flask import Flask, render_template, request, url_for, redirect, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
-from flask_bootstrap import Bootstrap
 from forms import RegisterForm, LoginForm, AddVehicleForm, AddTaskForm
 from models import db, User, Vehicle, Task
 from datetime import datetime
-from mailer import Mailer
 
 app = Flask(__name__)
 app.secret_key = "this is a secret key"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tracker.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-Bootstrap(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -32,9 +29,10 @@ def load_user(user_id):
 
 @app.route('/', methods=["GET", "POST"])
 def login():
+    form = LoginForm()
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    if request.method == "POST":
+    if form.validate_on_submit():
         email = request.form['email']
         password = request.form['password']
         user = User.query.filter_by(email=email).first()
@@ -45,8 +43,7 @@ def login():
         except Exception:
             return redirect(url_for('login'))
         
-    login_form = LoginForm()
-    return render_template("index.html", form=login_form)
+    return render_template("index.html", form=form)
 
 
 #           USER LOGOUT
@@ -68,7 +65,7 @@ def home():
 @app.route('/user/register', methods=["GET", "POST"])
 def register():
     form = RegisterForm()
-    if request.method == "POST":
+    if form.validate_on_submit():
         name = request.form['name']
         email = request.form['email']
         clear_pass = request.form['password']
@@ -86,7 +83,7 @@ def register():
 @login_required
 def user_edit():
     form = RegisterForm()
-    if request.method=='POST':
+    if request.method == 'POST':
         user = db.session.query(User).get(current_user.id)
         user.name = request.form['name']
         user.email = request.form['email']
@@ -99,18 +96,19 @@ def user_edit():
         form.process()
         return render_template("register.html", form=form)
 
+# USER DELETE
+@app.route('/user/delete')
+def user_delete():
+    db.session.delete(current_user)
+    db.session.commit()
+    return redirect(url_for('login'))
 
-@app.route('/user/send_mail')
-@login_required
-def send_mail():
-    mailer = Mailer(current_user)
-    mailer.send_mail()
-    flash("Email was sent")
-    return redirect(url_for('home'))
+
+
+# USER SEND MAIL
 
 
 # ---------------------------- Vehicle Routes --------------------------------------------------------------------------
-
 #           ADD VEHICLE
 @app.route('/add_vehicle', methods=["GET", "POST"])
 def add_vehicle():
