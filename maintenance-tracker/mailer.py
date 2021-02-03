@@ -26,7 +26,8 @@ class Mailer():
         for vehicle in vehicles:
             message += f"{vehicle.name} {vehicle.year} {vehicle.make} {vehicle.model} \n"
             for task in vehicle.tasks:
-                message += f"   {task.name} {task.date} {task.mileage}\n"
+                message += f"       {task.name} {task.date} {task.mileage}\n"
+            message += "\n"
         return message
 
 

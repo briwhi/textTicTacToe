@@ -2,8 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, DateField, validators
 from wtforms.validators import DataRequired, Email, Length
 from wtforms.widgets.html5 import DateInput
-from models import User
-from flask import flash
 
 
 class RegisterForm(FlaskForm):

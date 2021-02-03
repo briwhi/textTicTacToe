@@ -20,6 +20,7 @@ a {
    background-color: lightgray;
    border: 1px solid;
    padding: 3px;
+   color: black;
 }
 .icon_image {
    height: 20px;

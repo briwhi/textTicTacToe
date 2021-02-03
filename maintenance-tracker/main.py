@@ -3,7 +3,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, LoginManager, login_required, current_user, logout_user
 from forms import RegisterForm, LoginForm, AddVehicleForm, AddTaskForm
 from models import db, User, Vehicle, Task
-from datetime import datetime
 from mailer import Mailer
 
 app = Flask(__name__)
@@ -65,13 +64,13 @@ def home():
 #           USER ADD
 @app.route('/user/register', methods=["GET", "POST"])
 def register():
-    form = RegisterForm()
+    user = User()
+    form = RegisterForm(obj=user)
     if form.validate_on_submit():
-        name = request.form['name']
-        email = request.form['email']
+        form.populate_obj(user)
         clear_pass = request.form['password']
         hash_pass = generate_password_hash(clear_pass)
-        user = User(email=email, name=name, password=hash_pass)
+        user.password = hash_pass
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('login'))
@@ -83,18 +82,13 @@ def register():
 @app.route('/user/edit', methods=["GET", "POST"])
 @login_required
 def user_edit():
-    form = RegisterForm()
-    if request.method == 'POST':
-        user = db.session.query(User).get(current_user.id)
-        user.name = request.form['name']
-        user.email = request.form['email']
-        user.password = generate_password_hash(request.form['password'])
+    user = User()
+    form = RegisterForm(obj=user)
+    if form.validate_on_submit():
+        form.populate_obj(user)
         db.session.commit()
         return redirect(url_for('home'))
     else:
-        form.name.default = current_user.name
-        form.email.default = current_user.email
-        form.process()
         return render_template("register.html", form=form)
 
 
@@ -121,19 +115,16 @@ def send_mail():
 #           ADD VEHICLE
 @app.route('/add_vehicle', methods=["GET", "POST"])
 def add_vehicle():
-    form = AddVehicleForm()
-    if request.method == "POST":
-        name = request.form['name']
-        year = request.form['year']
-        make = request.form['make']
-        model = request.form['model']
-        user_id = current_user.id
-        vehicle = Vehicle(name=name, year=year, make=make, model=model, user_id=user_id)
+    vehicle = Vehicle()
+    form = AddVehicleForm(obj=vehicle)
+    if form.validate_on_submit():
+        form.populate_object(vehicle)
+        vehicle.user_id = current_user.id
         db.session.add(vehicle)
         db.session.commit()
         return redirect(url_for('home'))
-
-    return render_template('add_vehicle.html', form=form)
+    else:
+        return render_template('add_vehicle.html', form=form)
 
 
 #           VEHICLE DETAIL
@@ -157,21 +148,13 @@ def delete_vehicle(v_id):
 #           VEHICLE EDIT
 @app.route('/vehicle/edit/<v_id>', methods=["GET", "POST"])
 def edit_vehicle(v_id):
-    form = AddVehicleForm()
     vehicle = Vehicle.query.get(v_id)
-    if request.method == 'POST':
-        vehicle.name = request.form['name']
-        vehicle.year = request.form['year']
-        vehicle.make = request.form['make']
-        vehicle.model = request.form['model']
+    form = AddVehicleForm(obj=vehicle)
+    if form.validate_on_submit():
+        form.populate_obj(vehicle)
         db.session.commit()
         return redirect(url_for('vehicle_detail', v_id=vehicle.id))
     else:
-        form.name.default = vehicle.name
-        form.year.default = vehicle.year
-        form.make.default = vehicle.make
-        form.model.default = vehicle.model
-        form.process()
         return render_template("add_vehicle.html", form=form)
 
 
@@ -181,37 +164,29 @@ def edit_vehicle(v_id):
 @app.route('/task/add/<v_id>', methods=["POST", "GET"])
 @login_required
 def add_task(v_id):
-    form = AddTaskForm()
     vehicle = Vehicle.query.get(v_id)
+    task = Task()
+    form = AddTaskForm(obj=task)
     if form.validate_on_submit():
-        name = request.form['name']
-        string_date = request.form['date']
-        date = datetime.strptime(string_date, '%Y-%m-%d')
-        mileage = request.form['mileage']
-        task = Task(name=name, date=date, mileage=mileage, vehicle_id=v_id)
+        form.populate_obj(task)
+        task.vehicle_id = v_id
         db.session.add(task)
         db.session.commit()
         return redirect(url_for('vehicle_detail', v_id=vehicle.id))
-
-    return render_template("add_task.html", vehicle=vehicle, form=form)
+    else:
+        return render_template("add_task.html", vehicle=vehicle, form=form)
 
 
 # TASK EDIT
 @app.route('/task/edit/<v_id>/<t_id>', methods=['GET', 'POST'])
 def edit_task(v_id, t_id):
-    form = AddTaskForm()
     task = Task.query.get(t_id)
-    if request.method == 'POST':
-        task.name = request.form['name']
-        task.date = request.form['date']
-        task.mileage = request.form['mileage']
+    form = AddTaskForm(obj=task)
+    if form.validate_on_submit():
+        form.populate_obj(task)
         db.session.commit()
         return redirect(url_for('vehicle_detail', v_id=v_id))
     else:
-        form.name.default = task.name
-        form.date.default = task.date
-        form.mileage.default = task.mileage
-        form.process()
         return render_template("add_task.html", form=form)
 
 
