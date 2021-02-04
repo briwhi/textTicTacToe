@@ -82,7 +82,7 @@ def register():
 @app.route('/user/edit', methods=["GET", "POST"])
 @login_required
 def user_edit():
-    user = User()
+    user = current_user
     form = RegisterForm(obj=user)
     if form.validate_on_submit():
         form.populate_obj(user)
@@ -118,7 +118,7 @@ def add_vehicle():
     vehicle = Vehicle()
     form = AddVehicleForm(obj=vehicle)
     if form.validate_on_submit():
-        form.populate_object(vehicle)
+        form.populate_obj(vehicle)
         vehicle.user_id = current_user.id
         db.session.add(vehicle)
         db.session.commit()

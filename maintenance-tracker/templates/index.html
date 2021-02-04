@@ -6,15 +6,21 @@
 {% block content %}
 
         <div class="col text-left login mx-auto">
-            <form method="POST" class="bg-light">
+            <form method="POST" class="bg-light" novalidate>
                 {{ form.csrf_token }}
                 <div class="m-3">
                     {{ form.email.label(class="form-label") }}
                     {{ form.email(class="form-control") }}
+                    {%  if form.email.errors %}
+                        {{ form.email.errors }}
+                    {% endif %}
                 </div>
                 <div class="m-3">
                     {{ form.password.label(class="form-label") }}
                     {{ form.password(class="form-control") }}
+                    {% if form.password.errors %}
+                        {{ form.password.errors }}
+                    {% endif %}
                 </div>
                 <div class="m-3">
                     {{ form.submit(class="link") }}
