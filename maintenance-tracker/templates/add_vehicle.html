@@ -5,11 +5,14 @@
 <div class="container">
 
         <div class="col text-left login mx-auto mt-5">
-            <form method="POST" class="bg-light">
+            <form method="POST" class="bg-light" novalidate>
                 {{ form.csrf_token }}
                 <div class="m-3">
                     {{ form.name.label(class="form-label") }}
                     {{ form.name(class="form-control") }}
+                    {%  if form.name.errors %}
+                        {{ form.name.errors }}
+                    {% endif %}
                 </div>
                 <div class="m-3">
                     {{ form.year.label(class="form-label") }}
