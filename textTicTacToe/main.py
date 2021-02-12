@@ -12,6 +12,7 @@ class GameBoard:
                 ]
         self.gameOver = False
         self.turn = ' X '
+        self.winner = ' '
 
     def display(self):
         for line in self.board:
@@ -39,12 +40,27 @@ class GameBoard:
             self.turn = ' O '
         else:
             self.turn = ' X '
-        
+
+    def check_win(self):
+        wins = []
+        for r in (0, 2, 4):
+            wins.append([self.board[0][r], self.board[2][r], self.board[4][r]])
+            wins.append([self.board[r][0], self.board[r][2], self.board[r][4]])
+        wins.append([self.board[0][0], self.board[2][2], self.board[4][4]])
+        wins.append([self.board[4][0], self.board[2][2], self.board[0][4]])
+        for team in (' X ', ' O '):
+            for w in wins:
+                if w.count(team) == 3:
+                    self.winner = team
+                    self.gameOver = True
+
 
 gb = GameBoard()
 gb.display()
 
-while True:
+while not gb.gameOver:
     gb.get_move()
+    gb.check_win()
     gb.change_turn()
 
+print(f"{gb.winner} wins")
